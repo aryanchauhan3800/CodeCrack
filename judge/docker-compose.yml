@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   db:
     image: postgres:12.1
@@ -16,6 +14,7 @@ services:
       - "6379:6379"
 
   api:
+    platform: linux/amd64
     image: judge0/judge0:latest
     depends_on:
       - db
@@ -23,5 +22,6 @@ services:
     environment:
       DATABASE_URL: postgres://judge0:judge0@db:5432/judge0
       REDIS_URL: redis://redis:6379
+      REDIS_HOST: redis # Add this line
     ports:
       - "2358:2358"
