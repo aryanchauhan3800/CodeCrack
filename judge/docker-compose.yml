@@ -1,0 +1,27 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:12.1
+    environment:
+      POSTGRES_USER: judge0
+      POSTGRES_PASSWORD: judge0
+      POSTGRES_DB: judge0
+    ports:
+      - "5432:5432"
+
+  redis:
+    image: redis:5.0
+    ports:
+      - "6379:6379"
+
+  api:
+    image: judge0/judge0:latest
+    depends_on:
+      - db
+      - redis
+    environment:
+      DATABASE_URL: postgres://judge0:judge0@db:5432/judge0
+      REDIS_URL: redis://redis:6379
+    ports:
+      - "2358:2358"
